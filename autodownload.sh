@@ -4,20 +4,20 @@
 # Kullanim:         ./autodownload.sh
 # Amaci:            Otomatik script guncelleme ve indirme.
 # Sahibi:           Feridun OZTOK
-# Versiyon:         1.1
-# Tarih:            3 Ekim 2022
+# Versiyon:         1.2
+# Tarih:            4 Ekim 2022
 #====================================================================================================
 #Degiskenler
 #====================================================================================================
 source /etc/profile.d/CP.sh
-MEVCUTSURUM="Script Versiyon  : 1.1"
+MEVCUTSURUM="Script Versiyon  : 1.2"
 #====================================================================================================
 #show_version_info Fonksiyon
 #====================================================================================================
 show_version_info() {
 	echo ""
-	echo "Script Versiyon  : 1.1"
-	echo "Script Tarihi    : 3 Ekim 2022"
+	echo "Script Versiyon  : 1.2"
+	echo "Script Tarihi    : 4 Ekim 2022"
 	echo "Son Guncelleyen  : Feridun OZTOK"
 	echo ""
 	exit 0
@@ -49,6 +49,9 @@ show_help_info() {
 	echo "https://github.com/feroooo/ChecPoint-Auto-Download/tree/master"
 	echo ""
 	echo "Script SMS ve Gateway uzerinde calisabilmektedir."
+	echo "Scriptin indirme islemi icin dosya ismi basinda auto- ya da host ismi olmasi gerekir."
+	echo "Scriptin uzaktan calistirimasi icin sunucu uzerinde autorun.txt ye yazilmasi lazım."
+	echo "Ozel bir cihaz icin calistirilacaksa $HOSTNAME-autorun.txt seklinde olmasi gerekir."
 	echo ""
 	echo "Script ./autodownload.sh seklinde calisir. Kullanilabilir diger parametreler -v -u -h 'dir"
 	echo ""
@@ -120,7 +123,7 @@ echo
 echo
 echo *#######################################################*
 echo *#__________ CheckPoint Auto Download Script _________##*
-echo *#____________________ Version 1.1 ___________________##*
+echo *#____________________ Version 1.2 ___________________##*
 echo *#_____________ Creator by Feridun OZTOK _____________##*
 echo *#_ Egis Proje ve Danismanlik Bilisim Hiz. Ltd. Sti. _##*
 echo *#____________ support@egisbilisim.com.tr ____________##*
@@ -149,11 +152,13 @@ if [ $SATIRSAYDownload != 0 ]; then
 	while IFS= read -r INDIRILEN; do
 		echo
 		echo "**************************************************************************************"
-		echo "Indirilecek olan dosya: "$INDIRILEN
 		if [ -f $INDIRILEN ]; then
 			rm $INDIRILEN
 		fi
+		if  [[ $INDIRILEN == auto-* ]] || [[ $INDIRILEN == $HOSTNAME-* ]] ; then
+		echo "Indirilecek olan dosya: "$INDIRILEN
 		curl_cli http://dynamic.egisbilisim.com.tr/autodownload/$INDIRILEN | cat >$INDIRILEN && chmod 770 $INDIRILEN
+		fi
 	done <"$AUTODOWNLOAD"
 else
 	echo "Kaynakta indirilecek dosya yok."
