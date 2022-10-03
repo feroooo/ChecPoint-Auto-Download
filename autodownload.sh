@@ -14,11 +14,10 @@ MEVCUTSURUM="Script Versiyon  : 1.1"
 #====================================================================================================
 #show_version_info Fonksiyon
 #====================================================================================================
-show_version_info()
-{
+show_version_info() {
 	echo ""
-	echo "Script Versiyon  : 1.1"  
-	echo "Script Tarihi    : 3 Ekim 2022"  
+	echo "Script Versiyon  : 1.1"
+	echo "Script Tarihi    : 3 Ekim 2022"
 	echo "Son Guncelleyen  : Feridun OZTOK"
 	echo ""
 	exit 0
@@ -26,31 +25,28 @@ show_version_info()
 #====================================================================================================
 #versiyon_kontrol Fonksiyon
 #====================================================================================================
-versiyon_kontrol()
-{
-	sed '2,$d' surumyakala.txt > surumazalt.txt
-	awk -F"MEVCUTSURUM="  '{print $2}' surumazalt.txt > surumkisa.txt
-	sed 's/"//g' surumkisa.txt > surumtemizlenmis.txt
+versiyon_kontrol() {
+	sed '2,$d' surumyakala.txt >surumazalt.txt
+	awk -F"MEVCUTSURUM=" '{print $2}' surumazalt.txt >surumkisa.txt
+	sed 's/"//g' surumkisa.txt >surumtemizlenmis.txt
 	GUNCELSURUM=$(<surumtemizlenmis.txt)
 	rm surum*
-	if [[ "$MEVCUTSURUM" == "$GUNCELSURUM" ]]
-		then
-			echo "$MEVCUTSURUM" "Script calismaya uygun"
-         else
-			echo "Kullanilan surum guncel degil. Surumun $GUNCELSURUM olmasi gerekiyor."
-         echo "./hardering.sh -u komutu ile guncelleyebilirsiniz. Script kapanacak."
-         exit
-	fi		
+	if [[ "$MEVCUTSURUM" == "$GUNCELSURUM" ]]; then
+		echo "$MEVCUTSURUM" "Script calismaya uygun"
+	else
+		echo "Kullanilan surum guncel degil. Surumun $GUNCELSURUM olmasi gerekiyor."
+		echo "./hardering.sh -u komutu ile guncelleyebilirsiniz. Script kapanacak."
+		exit
+	fi
 }
 #====================================================================================================
 #show_help_infoFonksiyon
 #====================================================================================================
-show_help_info()
-{
-   	echo ""
+show_help_info() {
+	echo ""
 	echo "Bu script, Feridun OZTOK tarafindan CheckPoint urunler uzerinde"
 	echo "otomatik script indirme ve calistirma icin yazilmistir"
-  	echo "https://github.com/feroooo/ChecPoint-Auto-Download/tree/master"
+	echo "https://github.com/feroooo/ChecPoint-Auto-Download/tree/master"
 	echo ""
 	echo "Script SMS ve Gateway uzerinde calisabilmektedir."
 	echo ""
@@ -65,64 +61,57 @@ show_help_info()
 #====================================================================================================
 #download_updates Fonksiyon
 #====================================================================================================
-download_updates()
-{
+download_updates() {
 	rm autodownload.sh
-	curl_cli http://dynamic.egisbilisim.com.tr/script/autodownload.sh | cat > autodownload.sh && chmod 770 autodownload.sh
+	curl_cli http://dynamic.egisbilisim.com.tr/script/autodownload.sh | cat >autodownload.sh && chmod 770 autodownload.sh
 	exit 0
 }
 #====================================================================================================
 #Fonksiyon Tuslari
 #====================================================================================================
 while getopts ":v :u :h" opt; do
-    case "${opt}" in
-        h)
-            show_help_info
-            ;;
-        u)
-			download_updates
-            ;;
-        v)
-            show_version_info
-            ;;
-        *)
-            #Catch all for any other flags
-            show_help_info
-            exit 1
-            ;;
-    esac
+	case "${opt}" in
+	h)
+		show_help_info
+		;;
+	u)
+		download_updates
+		;;
+	v)
+		show_version_info
+		;;
+	*)
+		#Catch all for any other flags
+		show_help_info
+		exit 1
+		;;
+	esac
 done
 #====================================================================================================
-#Ekran temizligi
+#Temizlik ve Guncelleme
 #====================================================================================================
-rm surum*
-curl_cli http://dynamic.egisbilisim.com.tr/script/hardering.sh | grep "MEVCUTSURUM" > surumyakala.txt
 #Her zaman egis.
 cd /var/log/egis/
 #Varsa eski dosyalari sil.
-if [ -f autorun.txt ]
-then
-rm autorun.txt
+if [ -f autorun.txt ]; then
+	rm autorun.txt
 fi
 #
-if [ -f autodownloa*.txt ]
-then
-rm autodownloa*.txt
+if [ -f autodownloa*.txt ]; then
+	rm autodownloa*.txt
 fi
 #
-if [ -f $HOSTNAME-autorun.txt ]
-then
-rm $HOSTNAME-autorun.txt
+if [ -f $HOSTNAME-autorun.txt ]; then
+	rm $HOSTNAME-autorun.txt
 fi
 #
-if [ -f surumyakala.txt ]
-then
-rm surumyakala.txt
+if [ -f surumyakala.txt ]; then
+	rm surumyakala.txt
 fi
 #Yeni listeyi al.
-curl_cli http://dynamic.egisbilisim.com.tr/autorun/autorun.txt | cat > autorun.txt && chmod 770 autorun.txt
-curl_cli http://dynamic.egisbilisim.com.tr/autorun/$HOSTNAME-autorun.txt | cat > $HOSTNAME-autorun.txt && chmod 770 $HOSTNAME-autorun.txt
-curl_cli http://dynamic.egisbilisim.com.tr/autodownload/ > autodownload.txt
+curl_cli http://dynamic.egisbilisim.com.tr/autorun/autorun.txt | cat >autorun.txt && chmod 770 autorun.txt
+curl_cli http://dynamic.egisbilisim.com.tr/autorun/$HOSTNAME-autorun.txt | cat >$HOSTNAME-autorun.txt && chmod 770 $HOSTNAME-autorun.txt
+curl_cli http://dynamic.egisbilisim.com.tr/autodownload/ >autodownload.txt
 clear
 #====================================================================================================
 #Reklamlar
@@ -139,51 +128,45 @@ echo *#######################################################*
 echo
 echo
 #====================================================================================================
-
-
-
-#Satir haline cevir.
-sed 's/"/\n/g' autodownload.txt > autodownload2.txt
-#Gerekis satirlari temzile.
-sed '/>/d' autodownload2.txt > autodownload3.txt
+#Esas Script
+#====================================================================================================
+#autodownload dosyasinin ici karisik ve bitisik nizam. Satir haline ceviriyor.
+sed 's/"/\n/g' autodownload.txt >autodownload2.txt
+#Gereksiz satirlar temizleniyor.
+sed '/>/d' autodownload2.txt >autodownload3.txt
 #Baslangicati 1ci ve 2ci satisi sil.
-sed '1,2d' autodownload3.txt > autodownload4.txt
+sed '1,2d' autodownload3.txt >autodownload4.txt
 #Satir basindaki /autodownload/ kismini kaldir.
-awk -F "/autodownload/"  '{print $2}' autodownload4.txt > autodownload5.txt
+awk -F "/autodownload/" '{print $2}' autodownload4.txt >autodownload5.txt
 #Satir sayisini say, degisken icine al.
-SATIRSAYDownload=`grep -o -i .sh autodownload5.txt | wc -l`
-SATIRSAYRun=`grep -o -i .sh autorun.txt | wc -l`
-SATIRSAYHostRun=`grep -o -i .sh $HOSTNAME-autorun.txt | wc -l`
+SATIRSAYDownload=$(grep -o -i .sh autodownload5.txt | wc -l)
+SATIRSAYRun=$(grep -o -i .sh autorun.txt | wc -l)
+SATIRSAYHostRun=$(grep -o -i .sh $HOSTNAME-autorun.txt | wc -l)
 #Varsa indirme islemi.
-if [ $SATIRSAYDownload != 0  ]
-then
+if [ $SATIRSAYDownload != 0 ]; then
 	echo "Kaynakta dosya mevcut. Indirime islemi basliyor."
 	AUTODOWNLOAD=autodownload5.txt
-		while IFS= read -r INDIRILEN
-		do
+	while IFS= read -r INDIRILEN; do
 		echo
 		echo "**************************************************************************************"
 		echo "Indirilecek olan dosya: "$INDIRILEN
-			if [ -f $INDIRILEN  ]
-			then
-			rm $INDIRILEN 
-			fi
-		curl_cli http://dynamic.egisbilisim.com.tr/autodownload/$INDIRILEN | cat > $INDIRILEN && chmod 770 $INDIRILEN
-		done < "$AUTODOWNLOAD"
+		if [ -f $INDIRILEN ]; then
+			rm $INDIRILEN
+		fi
+		curl_cli http://dynamic.egisbilisim.com.tr/autodownload/$INDIRILEN | cat >$INDIRILEN && chmod 770 $INDIRILEN
+	done <"$AUTODOWNLOAD"
 else
-  echo "Kaynakta indirilecek dosya yok."
+	echo "Kaynakta indirilecek dosya yok."
 fi
 #Varsa calistirma islemi.
-if [ $SATIRSAYRun != 0  ]
-then
-CALISTIR=`cat autorun.txt`
-./$CALISTIR
+if [ $SATIRSAYRun != 0 ]; then
+	CALISTIR=$(cat autorun.txt)
+	./$CALISTIR
 fi
 #Host ozel calistirma islemi
-if [ $SATIRSAYHostRun != 0  ]
-then
-CALISTIR=`cat $HOSTNAME-autorun.txt`
-./$CALISTIR
+if [ $SATIRSAYHostRun != 0 ]; then
+	CALISTIR=$(cat $HOSTNAME-autorun.txt)
+	./$CALISTIR
 fi
 #Kalintilari sil.
 rm autodownloa*.txt
