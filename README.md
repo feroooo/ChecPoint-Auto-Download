@@ -1,1 +1,0 @@
-# ChecPoint-Auto-Download
