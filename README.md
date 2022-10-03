@@ -4,10 +4,10 @@ Bu script Feridun ÖZTOK tarafından CheckPoint üzerine uzaktan dosya indirme v
 Cronjob üzerine belirteceğiniz sıklıkta script çalışacak, indirilecek ve çalıştırılacak dosyaları online kontrol edecektir.
 http://dynamic.egisbilisim.com.tr Yanlızca yetkilendirilmiş kullanıcıların erişimine açıktır. Diğer kişiler yalnızca kodları kullanabilir.
 
-<p>Dosya adı auto-test1.sh şeklindeyse bütün cihazlar bu dosyayı indirecektir.</p>
-<p>Dosya adı TestFW-test1.sh şeklindeyse sadece TestFW bu dosyayı indirecektir.</p>
-<p>Dosya adı autorun.txt içine yazıldıysa dosyaya sahip olan bütün cihazlarda çalışacaktır.</p>
-<p>Dosya adı TestFW-autorun.txt içine yazıldıysa yalnızca TestFW'de çalışacaktır.</p>
+<p>Dosya adı auto-test1.sh şeklindeyse bütün cihazlar bu dosyayı indirecektir.<br>
+Dosya adı TestFW-test1.sh şeklindeyse sadece TestFW bu dosyayı indirecektir.<br>
+Dosya adı autorun.txt içine yazıldıysa dosyaya sahip olan bütün cihazlarda çalışacaktır.<br>
+Dosya adı TestFW-autorun.txt içine yazıldıysa yalnızca TestFW'de çalışacaktır.</p>
 
 # Örnek Cronjob
 ```
