@@ -147,17 +147,19 @@ SATIRSAYRun=$(grep -o -i .sh autorun.txt | wc -l)
 SATIRSAYHostRun=$(grep -o -i .sh $HOSTNAME-autorun.txt | wc -l)
 #Varsa indirme islemi.
 if [ $SATIRSAYDownload != 0 ]; then
-	echo "Kaynakta dosya mevcut. Indirime islemi basliyor."
+	echo "Kaynakta indirilebilecek dosyalar kontrol ediliyor."
 	AUTODOWNLOAD=autodownload5.txt
 	while IFS= read -r INDIRILEN; do
 		echo
-		echo "**************************************************************************************"
 		if [ -f $INDIRILEN ]; then
 			rm $INDIRILEN
 		fi
 		if  [[ $INDIRILEN == auto-* ]] || [[ $INDIRILEN == $HOSTNAME-* ]] ; then
 		echo "Indirilecek olan dosya: "$INDIRILEN
-		curl_cli http://dynamic.egisbilisim.com.tr/autodownload/$INDIRILEN | cat >$INDIRILEN && chmod 770 $INDIRILEN
+		echo "**************************************************************************************"
+		KAYDEDILEN=$(sed 's/^[^-]*-//' <<< $INDIRILEN)
+		echo $KAYDEDILEN
+		curl_cli http://dynamic.egisbilisim.com.tr/autodownload/$INDIRILEN | cat >$KAYDEDILEN && chmod 770 $KAYDEDILEN
 		fi
 	done <"$AUTODOWNLOAD"
 else
